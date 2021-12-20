@@ -105,3 +105,95 @@ letterList = ['A','C'..'Z'] --generates a list of letters from alphabets jumping
 infinPow10 = [10,20..] --ininity list, but it's lazy: creates only the necessary
 
 many2s = take 10 (repeat 2) --takes 10 twos from a infinity list of twos
+
+many3s = replicate 10 3
+
+cycleList = take 10 (cycle[1,2,3,4,5]) --repeat those items over and over again -> cycle list
+
+listTimes2 = [x * 2 | x <- [1..10]] --multiplies by 2 all elements from the list
+
+--chosing which elements to multiply:
+listTimes3 = [x*3 | x <- [1..10], x* 3 <=50]
+
+divisBy9N13 = [x | x <- [1..500], x `mod` 13 == 0, x `mod` 9 == 0] --filtering lists
+
+sumOfLists = zipWith (+) [1,2,3,4,5] [6,7,8,9,10]
+
+evensUpTo20 = takeWhile (<= 20) [2,4..]
+
+-- foldl -> operation left to right | foldr -> right to left
+multOfList = foldl (*) 1 [2,3,4,5]
+
+-- 25:44 -> jumping to 28:31
+
+main = do --main
+--input and outputing information
+    --asking a name and asigning it to a variable
+    putStrLn "What's your name"
+    name <- getLine
+    putStrLn("Hello, " ++ name)
+
+-- runing file: 
+-- quit -> :q
+-- ghc --make [file name]
+
+-- FUNCTIONS
+addMe :: Int -> Int -> Int -- defining function to work with integers
+-- funcName param1 param2 = operations (returned value)
+-- function name cannot start with an uppercase letter
+addMe x y = x+y
+
+addTuples :: (Int, Int) -> (Int, Int) -> (Int, Int)
+
+addTuples (x,y) (x2,y2) = (x+x2, y+y2)
+
+whatAge :: Int -> String
+
+whatAge 16 = "You can drive"
+whatAge 18 = "You can vote"
+whatAge 21 = "You're an adult"
+whatAge x = "Nothing Important"
+
+
+-- RECURSION
+
+factorial :: Int -> Int
+
+factorial 0 = 1
+factorial n = n * factorial (n-1)
+
+-- GUARDS
+isOdd :: Int -> Bool
+
+isOdd n
+    | n `mod` 2 == 0 = False
+    | otherwise = True
+
+isEven n = n `mod` 2 == 0
+
+
+whatGrade :: Int -> String
+
+whatGrade age 
+    | (age >= 5) && (age <= 6) = "Kindergarten"
+    | (age > 6) && (age <= 10) = "Elementary School"
+    | (age > 10) && (age <= 14) = "Middle School"
+    | (age > 14) && (age <= 18) = "High School"
+    | otherwise = "Go to college"
+
+batAvgRating :: Double -> Double -> String
+
+batAvgRating hits atBats
+    | avg <= 0.200 = "Terrible batting average"
+    | avg <= 0.250 = "Average player"
+    | avg <= 0.280 = "You're doing pretty good"
+    | otherwise = "You're a superstart"
+    where avg hits/atBats --defines avg variable
+
+
+getListItems :: [Int] -> String
+
+getListItems [] = "Your list is empty"
+getListItems (x:[]) = "Your list starts with" ++ show x
+getListItems (x:y:[]) = "Your list contains" ++ show x ++ "and" ++ show y
+getListItems (x:xs) = "The firs item is " ++ show x ++ " and the rest is" ++ show xs
