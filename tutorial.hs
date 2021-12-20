@@ -188,8 +188,7 @@ batAvgRating hits atBats
     | avg <= 0.250 = "Average player"
     | avg <= 0.280 = "You're doing pretty good"
     | otherwise = "You're a superstart"
-    where avg hits/atBats --defines avg variable
-
+    where avg = hits/atBats --defines avg variable
 
 getListItems :: [Int] -> String
 
@@ -197,3 +196,85 @@ getListItems [] = "Your list is empty"
 getListItems (x:[]) = "Your list starts with" ++ show x
 getListItems (x:y:[]) = "Your list contains" ++ show x ++ "and" ++ show y
 getListItems (x:xs) = "The firs item is " ++ show x ++ " and the rest is" ++ show xs
+
+
+doubleEvenNumber y = 
+    if (y `mod` 2 /= 0)
+        then y
+        else y*2
+
+getClass :: Int -> String
+getClass n = case n of
+    5 -> "Go to Kindergarten"
+    6 -> "Go to elementary school"
+    _ -> "Go away"
+
+
+-- ENUMERATION
+data BaseballPlayer = Pitcher 
+                    | Catcher
+                    | Infielder
+                    | Outfield
+                    deriving Show
+
+barryBonds :: BaseballPlayer -> Bool
+barryBonds Outfield = True
+
+-- CUSTOM TYPES
+data Customer = Customer String String Double
+    deriving Show
+tomSmith :: Customer
+tomSmith = Customer "Tom Smith" "123 Main" 20.50
+
+getBalance :: Customer -> Double
+getBalance (Customer _ _ b) = b
+
+-- POLYMORPHIC TYPES
+
+data Shape = Circle Float Float Float | Rectangle Float Float Float Float
+            deriving Show
+
+area :: Shape -> Float
+
+area(Circle _ _ r) = pi * r ^ 2
+area (Rectangle x y x2 y2) = (abs (x2-x)) * (abs (y2-y)) -- $ -> gets rid of () -> (abs $ x2-x) * (abs $ y2-y)
+
+--putStrLn (show (1+2)) it's the same thing of putStrLn . show $ 1+2
+
+
+-- TYPE CLASSES
+data Employee = Employee { name:: String,
+                        position :: String,
+                        idNum :: Int
+                        } deriving (Eq, Show) -- makes possible to use "show" function and check equality
+
+samSmith = Employee{name = "Sam Smith", position = "Manager", idNum = 1000}
+pamMarx = Employee{name = "Pam Marx", position = "Sales", idNum =1001}
+
+isSamPam = samSmith == pamMarx --check equality
+samSmithData = show samSmith --uses show function
+
+data ShirtSize S | M | L 
+
+instance Eq ShirtSize where
+    S == S = True
+    M == M = True
+    L == L = True
+    _ == _ False
+
+instance Show ShirtSize where
+    show S = "Small"
+    show M = "Medium"
+    show L = "Large"
+
+smallAvail = S `elem` [S,M,L]
+theSize = show S
+
+class MyEq a where
+    areEqual :: a -> a -> Bool
+instance MyEq ShirtSize where
+    areEqual S S = True
+    areEqual M M = True
+    areEqual L L = True
+    areEqual _ _ = False
+
